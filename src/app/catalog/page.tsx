@@ -1,4 +1,4 @@
-import { ProductGrid } from '@/components/catalog/product-grid';
+import ProductGrid, { ProductGridSkeleton } from '@/components/catalog/product-grid';
 import { Sidebar } from '@/components/catalog/sidebar';
 import { products } from '@/lib/data';
 import type { Product } from '@/lib/types';
@@ -23,8 +23,7 @@ const filterAndSortProducts = (
   const minPrice = Number(minStr);
   const maxPrice = Number(maxStr);
 
-
-  let filtered = allProducts.filter(p => {
+  const filtered = allProducts.filter(p => {
     const searchMatch =
       query === '' ||
       p.name.toLowerCase().includes(query) ||
@@ -67,10 +66,10 @@ function EmptyState() {
 export default function CatalogPage({
   searchParams,
 }: {
-  searchParams?: { [key:string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const filteredProducts = filterAndSortProducts(products, searchParams);
-  const view = searchParams?.view || 'grid';
+  const view = (searchParams?.view as 'grid' | 'table') || 'grid';
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-[280px_1fr] gap-8 items-start h-[calc(100vh-129px)] pt-6">
@@ -81,7 +80,7 @@ export default function CatalogPage({
       </aside>
 
       <main className="h-full overflow-y-auto">
-        <Suspense fallback={<ProductGrid.Skeleton />}>
+        <Suspense fallback={<ProductGridSkeleton />}>
           {filteredProducts.length > 0 ? (
             view === 'table' ? (
               <ProductTable products={filteredProducts} />
