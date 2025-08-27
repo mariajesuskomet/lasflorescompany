@@ -267,34 +267,31 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 {
 __turbopack_context__.s({
     "ProductGrid": (()=>ProductGrid),
-    "default": (()=>__TURBOPACK__default__export__)
+    "ProductGridSkeleton": (()=>ProductGridSkeleton)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-// 👉 Usa tu tarjeta real (la misma que ya renderizaba imagen + Add to cart)
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalog$2f$product$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/catalog/product-card.tsx [app-client] (ecmascript)");
 'use client';
 ;
 ;
-// --- Tu grilla REAL (no cambiamos nada salvo el wrapper) ---
-function ProductGridBase({ products, className }) {
+function ProductGrid({ products }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: className ?? 'grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
+        className: "grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
         children: products.map((p)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$catalog$2f$product$2d$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 p: p
             }, p.id, false, {
                 fileName: "[project]/src/components/catalog/product-grid.tsx",
-                lineNumber: 23,
-                columnNumber: 3
+                lineNumber: 14,
+                columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/src/components/catalog/product-grid.tsx",
-        lineNumber: 16,
+        lineNumber: 12,
         columnNumber: 5
     }, this);
 }
-_c = ProductGridBase;
-// --- Skeleton (solo para fallback de Suspense) ---
-function GridSkeleton({ count = 12 }) {
+_c = ProductGrid;
+function ProductGridSkeleton({ count = 12 }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
         children: Array.from({
@@ -306,7 +303,7 @@ function GridSkeleton({ count = 12 }) {
                         className: "aspect-[4/3] w-full bg-muted"
                     }, void 0, false, {
                         fileName: "[project]/src/components/catalog/product-grid.tsx",
-                        lineNumber: 39,
+                        lineNumber: 29,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -316,49 +313,45 @@ function GridSkeleton({ count = 12 }) {
                                 className: "h-4 w-3/5 bg-muted rounded"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/catalog/product-grid.tsx",
-                                lineNumber: 41,
+                                lineNumber: 31,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "h-3 w-2/5 bg-muted rounded"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/catalog/product-grid.tsx",
-                                lineNumber: 42,
+                                lineNumber: 32,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-2 h-9 w-full bg-muted rounded-md"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/catalog/product-grid.tsx",
-                                lineNumber: 43,
+                                lineNumber: 33,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/catalog/product-grid.tsx",
-                        lineNumber: 40,
+                        lineNumber: 30,
                         columnNumber: 11
                     }, this)
                 ]
             }, i, true, {
                 fileName: "[project]/src/components/catalog/product-grid.tsx",
-                lineNumber: 35,
+                lineNumber: 25,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/src/components/catalog/product-grid.tsx",
-        lineNumber: 33,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 }
-_c1 = GridSkeleton;
-const ProductGrid = ProductGridBase;
-ProductGrid.Skeleton = GridSkeleton;
-;
-const __TURBOPACK__default__export__ = ProductGrid;
+_c1 = ProductGridSkeleton;
 var _c, _c1;
-__turbopack_context__.k.register(_c, "ProductGridBase");
-__turbopack_context__.k.register(_c1, "GridSkeleton");
+__turbopack_context__.k.register(_c, "ProductGrid");
+__turbopack_context__.k.register(_c1, "ProductGridSkeleton");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(module, globalThis.$RefreshHelpers$);
 }

@@ -2,33 +2,23 @@
 
 import React from 'react';
 import type { Product } from '@/lib/types';
-// 👉 Usa tu tarjeta real (la misma que ya renderizaba imagen + Add to cart)
 import ProductCard from '@/components/catalog/product-card';
 
-type Props = {
-  products: Product[];
-  className?: string;
-};
+type Props = { products: Product[] };
 
-// --- Tu grilla REAL (no cambiamos nada salvo el wrapper) ---
-function ProductGridBase({ products, className }: Props) {
+/** Grid REAL: requiere `products` */
+export function ProductGrid({ products }: Props) {
   return (
-    <div
-      className={
-        className ??
-        'grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
-      }
-    >
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {products.map((p) => (
-  <ProductCard key={p.id} p={p} />
-))}
-
+        <ProductCard key={p.id} p={p} />
+      ))}
     </div>
   );
 }
 
-// --- Skeleton (solo para fallback de Suspense) ---
-function GridSkeleton({ count = 12 }: { count?: number }) {
+/** Skeleton para Suspense: NO requiere props */
+export function ProductGridSkeleton({ count = 12 }: { count?: number }) {
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {Array.from({ length: count }).map((_, i) => (
@@ -47,15 +37,3 @@ function GridSkeleton({ count = 12 }: { count?: number }) {
     </div>
   );
 }
-
-// --- Adjuntamos la propiedad estática .Skeleton (mantiene tu API existente) ---
-type ProductGridType = typeof ProductGridBase & {
-  Skeleton: React.FC<{ count?: number }>;
-};
-
-const ProductGrid = ProductGridBase as ProductGridType;
-ProductGrid.Skeleton = GridSkeleton;
-
-// Exportamos de ambas formas para no romper imports existentes
-export { ProductGrid };
-export default ProductGrid;

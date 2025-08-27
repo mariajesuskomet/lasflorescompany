@@ -1,11 +1,11 @@
-import ProductGrid, { ProductGridSkeleton } from '@/components/catalog/product-grid';
+import { Suspense } from 'react';
+import { ProductGrid, ProductGridSkeleton } from '@/components/catalog/product-grid';
 import { Sidebar } from '@/components/catalog/sidebar';
+import { ProductTable } from '@/components/catalog/product-table';
 import { products } from '@/lib/data';
 import type { Product } from '@/lib/types';
-import { Suspense } from 'react';
-import { ProductTable } from '@/components/catalog/product-table';
 
-// 🔧 Evita prerender y el error de “useSearchParams should be wrapped in a suspense boundary”
+// Evita prerender y el error de “useSearchParams should be wrapped in a suspense boundary”
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -30,7 +30,7 @@ const filterAndSortProducts = (
       p.color.toLowerCase().includes(query) ||
       p.boxType.toLowerCase().includes(query);
 
-    const withinPrice =
+  const withinPrice =
       (!isFinite(minPrice) || p.unitPrice >= minPrice) &&
       (!isFinite(maxPrice) || p.unitPrice <= maxPrice);
 
@@ -47,7 +47,7 @@ const filterAndSortProducts = (
   return filtered;
 };
 
-// Empty state con CTA que limpia filtros (regresa a /catalog sin query params)
+// Empty state con CTA que limpia filtros
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">

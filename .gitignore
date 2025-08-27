@@ -1,1 +1,7 @@
 node_modules
+.next
+.vercel
+.env
+.env.*
+.idx
+.DS_Store
