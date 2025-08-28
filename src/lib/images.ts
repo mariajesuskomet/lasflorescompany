@@ -1,58 +1,79 @@
 // src/lib/images.ts
+import type { Product } from './types';
 
-// Acepta producto o cart item
-type HasImageLike = {
-  images?: Array<string | unknown>;
-  image?: unknown;
-  name?: string;
-  color?: string;
-};
-
-const FALLBACK = '/images/products/fallback.jpg';
-
-function isBlankish(x: unknown): boolean {
-  if (!x) return true;
-  if (typeof x !== 'string') return false;
-  const s = x.trim();
-  return (
-    s === '' ||
-    /^null$/i.test(s) ||
-    /^undefined$/i.test(s) ||
-    /^n\/a$/i.test(s)
-  );
+/** Toma el primer valor si viene "a.jpg, b.jpg" o "a.jpg|b.jpg" */
+function firstToken(s: string) {
+  return String(s)
+    .split(/[,|]/)
+    .map((v) => v.trim())
+    .filter(Boolean)[0] ?? '';
 }
 
-// Convierte StaticImageData u otros a string
-function toStr(x: unknown): string | undefined {
-  if (!x) return undefined;
-  if (typeof x === 'string') return x;
-  const anyx = x as any;
-  if (anyx?.src && typeof anyx.src === 'string') return anyx.src; // StaticImageData
-  if (anyx?.default && typeof anyx.default === 'string') return anyx.default;
-  return undefined;
+/** Limpia comillas, espacios y barras iniciales duplicadas */
+function cleanse(s: string) {
+  return String(s).trim().replace(/^['"]|['"]$/g, '').replace(/^\/+/, '');
 }
 
-export function getProductImageUrl(p: HasImageLike): string {
-  // toma primera disponible
-  const firstRaw =
-    (Array.isArray(p.images) ? p.images.find(Boolean) : undefined) ??
-    p.image;
-
-  const first = toStr(firstRaw);
-
-  // vacío o "null"/"undefined"/"N/A" => fallback
-  if (isBlankish(first)) return FALLBACK;
-
-  // si viene absoluta, y ya NO quieres remotas => usa fallback
-  if (/^https?:\/\//i.test(first!)) return FALLBACK;
-
-  // relativa => servida desde /public/images/products
-  const cleaned = first!.split('?')[0].replace(/^\/+/, '');
-  return `/images/products/${cleaned}`;
+function withExt(name: string) {
+  // Si no trae extensión, asumimos .jpg
+  return /\.[a-z0-9]+$/i.test(name) ? name : `${name}.jpg`;
 }
 
-export function getAltText(p: HasImageLike): string {
-  const n = (p?.name ?? '').trim() || 'Product image';
-  const c = (p?.color ?? '').trim();
-  return c ? `${n} – ${c}` : n;
+/**
+ * Devuelve una lista de candidatos de ruta para una imagen.
+ * Cubre:
+ *  - URL absolutas (http/https)
+ *  - nombre de archivo a secas (ej: "spray-chrysanthemum-1.jpg")
+ *  - rutas relativas (ej: "images/products/x.jpg")
+ *  - variaciones .jpg / .jpeg y minúsculas
+ */
+export function getImageCandidates(p: Product): string[] {
+  const raw =
+    (p as any).image ??
+    (p as any).img ??
+    (p as any).photo ??
+    (p as any).picture ??
+    '';
+
+  let name = firstToken(raw);
+  if (!name) return ['/images/products/fallback.jpg'];
+
+  // url absoluta
+  name = cleanse(name);
+  if (/^https?:\/\//i.test(name)) {
+    return [name, '/images/products/fallback.jpg'];
+  }
+
+  // si vino una ruta con carpetas la usamos tal cual (añadiendo /)
+  if (name.includes('/')) {
+    const n = withExt(name);
+    return [`/${n}`, '/images/products/fallback.jpg'];
+  }
+
+  // sólo nombre de archivo → probamos directorios frecuentes y variantes
+  const base = withExt(name);
+  const baseLower = base.toLowerCase();
+  const jpg = baseLower.replace(/\.jpeg$/i, '.jpg');
+  const jpeg = baseLower.replace(/\.jpg$/i, '.jpeg');
+
+  const candidates = [
+    `/images/products/${jpg}`,
+    `/images/${jpg}`,
+    `/products/${jpg}`,
+    `/images/products/${jpeg}`,
+    `/images/${jpeg}`,
+    `/products/${jpeg}`,
+  ];
+
+  // únicos + fallback final
+  return Array.from(new Set(candidates)).concat('/images/products/fallback.jpg');
+}
+
+export function getProductImageUrl(p: Product): string {
+  // compat: primer candidato
+  return getImageCandidates(p)[0];
+}
+
+export function getAltText(p: Product): string {
+  return p?.name || 'Product image';
 }

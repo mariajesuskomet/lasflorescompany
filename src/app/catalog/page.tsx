@@ -1,9 +1,10 @@
 import { Suspense } from 'react';
 import { ProductGrid, ProductGridSkeleton } from '@/components/catalog/product-grid';
-import { Sidebar } from '@/components/catalog/sidebar';
+import { Sidebar } from '@/components/filters/sidebar';
 import { ProductTable } from '@/components/catalog/product-table';
 import { products } from '@/lib/data';
 import type { Product } from '@/lib/types';
+import ChipsRow from '@/components/filters/ChipsRow';
 
 // Evita prerender y el error de “useSearchParams should be wrapped in a suspense boundary”
 export const dynamic = 'force-dynamic';
@@ -23,14 +24,14 @@ const filterAndSortProducts = (
   const minPrice = Number(minStr);
   const maxPrice = Number(maxStr);
 
-  const filtered = allProducts.filter(p => {
+  const filtered = allProducts.filter((p) => {
     const searchMatch =
       query === '' ||
       p.name.toLowerCase().includes(query) ||
       p.color.toLowerCase().includes(query) ||
       p.boxType.toLowerCase().includes(query);
 
-  const withinPrice =
+    const withinPrice =
       (!isFinite(minPrice) || p.unitPrice >= minPrice) &&
       (!isFinite(maxPrice) || p.unitPrice <= maxPrice);
 
@@ -40,7 +41,7 @@ const filterAndSortProducts = (
       (colors.length === 0 || colors.includes(p.color)) &&
       (categories.length === 0 || categories.includes(p.category)) &&
       (vendors.length === 0 || vendors.includes(p.vendor)) &&
-      (tags.length === 0 || p.tags?.some(tag => tags.includes(tag)))
+      (tags.length === 0 || p.tags?.some((tag) => tags.includes(tag)))
     );
   });
 
@@ -80,6 +81,9 @@ export default function CatalogPage({
       </aside>
 
       <main className="h-full overflow-y-auto">
+        {/* Chips (client component) */}
+        <ChipsRow />
+
         <Suspense fallback={<ProductGridSkeleton />}>
           {filteredProducts.length > 0 ? (
             view === 'table' ? (

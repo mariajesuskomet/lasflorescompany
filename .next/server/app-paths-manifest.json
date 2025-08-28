@@ -1,6 +1,10 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/catalog/page": "app/catalog/page.js",
+  "/api/images/route": "app/api/images/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/loading/page": "app/loading/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/(public)/open-discovery/page": "app/(public)/open-discovery/page.js",
+  "/catalog/page": "app/catalog/page.js"
 }
