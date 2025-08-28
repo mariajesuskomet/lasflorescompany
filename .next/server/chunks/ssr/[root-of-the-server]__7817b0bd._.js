@@ -1260,6 +1260,7 @@ __turbopack_context__.s({
     "getAltText": (()=>getAltText),
     "getProductImageUrl": (()=>getProductImageUrl)
 });
+const PRODUCT_IMAGE_BASE = '/images/products/';
 const FALLBACK = '/images/products/fallback.jpg';
 function isBlankish(x) {
     if (!x) return true;

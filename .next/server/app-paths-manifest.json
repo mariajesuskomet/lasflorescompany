@@ -1,6 +1,5 @@
 {
+  "/(public)/open-discovery/page": "app/(public)/open-discovery/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/catalog/page": "app/catalog/page.js",
-  "/loading/page": "app/loading/page.js",
-  "/page": "app/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

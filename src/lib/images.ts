@@ -8,6 +8,7 @@ type HasImageLike = {
   color?: string;
 };
 
+const PRODUCT_IMAGE_BASE = '/images/products/';
 const FALLBACK = '/images/products/fallback.jpg';
 
 function isBlankish(x: unknown): boolean {
