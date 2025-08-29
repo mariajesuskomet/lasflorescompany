@@ -5,7 +5,6 @@ import React, { useMemo, useCallback, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { buildFacets } from '@/lib/catalog-facets';
 import type { Product } from '@/lib/types';
-import FilterChips from '@/components/filters/filter-chips';
 
 // 🎨 mismos componentes UI que en el e-commerce
 import { Button } from '@/components/ui/button';
@@ -92,11 +91,6 @@ export default function FiltersPublic({ products }: { products: Product[] }) {
             Clear
           </Button>
         )}
-      </div>
-
-      {/* Chips seleccionados (con tu componente existente) */}
-      <div className="px-1">
-        <FilterChips selected={selected as any} onRemove={removeChip as any} />
       </div>
 
       {/* Contenedor con scroll interno (mismo patrón) */}

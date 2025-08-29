@@ -68,18 +68,25 @@ export default function OpenDiscoveryPage({
 )}
 
 
-      {/* ===== All Products + Filtros (lado a lado) ===== */}
-      <section className="px-6 py-8">
-        <div className="max-w-[1404px] mx-auto grid gap-8 md:grid-cols-[280px,1fr]">
-          {/* Sidebar de filtros (sin Price ni Vendors) */}
-          <div className="md:sticky md:top-20 md:self-start">
-            <FiltersPublic products={products} />
-          </div>
+{/* ===== All Products + Filtros (lado a lado) ===== */}
+<section className="px-6 py-8">
+  <div className="max-w-[1404px] mx-auto">
+    {/* Título de toda la sección */}
+    <h2 className="text-[24px] leading-7 font-semibold mb-4">All Products</h2>
 
-          {/* Grid + buscador + contador (columna derecha) */}
-          <AllProductsPublic products={products} heading="All Products" />
-        </div>
-      </section>
+    {/* Layout 2 columnas: filtros (izq) + contenido (der) */}
+    <div className="grid gap-8 md:grid-cols-[280px,1fr]">
+      {/* Sidebar de filtros (NO tocar lógica/estilos) */}
+      <div className="md:sticky md:top-20 md:self-start">
+        <FiltersPublic products={products} />
+      </div>
+
+      {/* Contenido derecho */}
+      <AllProductsPublic products={products} />
+    </div>
+  </div>
+</section>
+
 
       {/* Footer */}
       <footer className="mt-16 border-t p-6 text-center text-sm text-gray-500">
