@@ -25,7 +25,7 @@ const loginSchema = z.object({
 export function LoginForm() {
   const router = useRouter();
 
-  // 1) Hooks que deben ejecutarse SIEMPRE y en el mismo orden
+  // 1) Hooks que deben ejecutarse SIEMPRE en el mismo orden
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -36,7 +36,7 @@ export function LoginForm() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // 2) Recién aquí podemos cortar el render
+  // 2)
   if (!mounted) return null;
 
   const handleDemoLogin = () => {

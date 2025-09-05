@@ -8,9 +8,11 @@ import SecondaryCarousel from '@/components/discovery/SecondaryCarousel';
 import FiltersPublic from '@/components/discovery/FiltersPublic';
 import type { Product } from '@/lib/types';
 import OpenDiscoveryHeader from '@/components/discovery/OpenDiscoveryHeader';
+import AllProductsTopBar from '@/components/discovery/AllProductsTopBar';
 import AllProductsPublic from '@/components/discovery/AllProductsPublic';
 
 export const dynamic = 'force-dynamic';
+
 
 // --- same filter logic as catalog (without price) ---
 function filterProducts(all: Product[], sp: Record<string, string | string[] | undefined>) {
@@ -48,7 +50,7 @@ export default function OpenDiscoveryPage({
 
   return (
     <div className="min-h-screen">
-      {/* Header fijo */}
+      {/* Header */}
       <OpenDiscoveryHeader
         loginHref="https://lasflorescompany.vercel.app"
         logoSrc="/brand/logo.png"
@@ -56,8 +58,10 @@ export default function OpenDiscoveryPage({
       />
 
       {/* Carousel 1 */}
-      <section className="px-6 py-8">
-        <HeroCarousel products={primary} />
+      <section className="pt-0 pb-2 bg-slate-50">
+      <div className="max-w-[1404px] mx-auto px-6">   {/* contenido alineado */}
+       <HeroCarousel products={primary} />
+      </div>
       </section>
 
 {/* Best Sellers oculto */}
@@ -71,8 +75,15 @@ export default function OpenDiscoveryPage({
 {/* ===== All Products + Filtros (lado a lado) ===== */}
 <section className="px-6 py-8">
   <div className="max-w-[1404px] mx-auto">
-    {/* Título de toda la sección */}
-    <h2 className="text-[24px] leading-7 font-semibold mb-4">All Products</h2>
+  <AllProductsTopBar />
+
+<div className="grid gap-8 md:grid-cols-[280px,1fr]">
+  <div className="md:sticky md:top-20 md:self-start">
+    <FiltersPublic products={products} />
+  </div>
+
+  <AllProductsPublic products={products} />
+</div>
 
     {/* Layout 2 columnas: filtros (izq) + contenido (der) */}
     <div className="grid gap-8 md:grid-cols-[280px,1fr]">

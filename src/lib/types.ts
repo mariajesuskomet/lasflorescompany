@@ -15,6 +15,9 @@ export interface Product {
   unitType: 'Stem' | 'Item' | 'Bunch';
   boxType: 'QB' | 'FB' | 'HB' | 'OB' | 'EB';
 
+  stemBun?: number | string;
+  totalUnits?: number | string;
+
   // inventario y proveedor
   stockUnits: number;
   vendor: string;

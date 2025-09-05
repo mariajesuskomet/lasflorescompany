@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { buildFacets } from '@/lib/catalog-facets';
 import type { Product } from '@/lib/types';
 
-// 🎨 mismos componentes UI que en el e-commerce
+// mismos componentes UI que en el e-commerce
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -20,18 +20,15 @@ const csvToArr = (v: string | null) => (v ? v.split(',').filter(Boolean) : []);
 const toggle = (list: string[], value: string) =>
   list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 
-// ⚙️ Límite de ítems visibles por sección (igual a e-commerce)
+// Límite de ítems visibles por sección (igual a e-commerce)
 const MAX_VISIBLE_ITEMS = 7;
 
 export default function FiltersPublic({ products }: { products: Product[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
-
-  // Facetas desde datos (igual que antes)
   const facets = useMemo(() => buildFacets(products), [products]);
 
-  // Estado derivado 100% desde la URL (igual que antes)
   const selected = useMemo(() => {
     const categories = csvToArr(sp.get('categories'));
     const colors = csvToArr(sp.get('colors'));
@@ -44,7 +41,7 @@ export default function FiltersPublic({ products }: { products: Product[] }) {
     };
   }, [sp]);
 
-  // Escribir a la URL manteniendo el resto de params (igual que antes)
+  // Escribir a la URL manteniendo el resto de params
   const pushParam = useCallback(
     (key: Key, values: string[]) => {
       const params = new URLSearchParams(sp.toString());
@@ -93,7 +90,7 @@ export default function FiltersPublic({ products }: { products: Product[] }) {
         )}
       </div>
 
-      {/* Contenedor con scroll interno (mismo patrón) */}
+      {/* Contenedor con scroll interno */}
       <ScrollArea className="pr-4 h-[calc(100vh-220px)] min-h-0">
         <Accordion
           type="multiple"
@@ -124,7 +121,6 @@ export default function FiltersPublic({ products }: { products: Product[] }) {
             selected={selected.tags}
             onToggle={onToggle}
           />
-          {/* ⚠️ En landing pública NO mostramos Price ni Vendors */}
         </Accordion>
       </ScrollArea>
     </aside>

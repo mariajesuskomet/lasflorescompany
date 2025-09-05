@@ -24,7 +24,7 @@ export default function DiscoveryCard({ p }: { p: Product }) {
         className="inline-flex w-full flex-col gap-2 bg-white p-3 rounded-2xl outline outline-1 outline-[#CEDBE8] shadow-[0_0_1px_rgba(9,30,66,0.08)] transition-transform duration-200 hover:scale-[1.04]"
         style={{ outlineOffset: '-1px' }}
       >
-        {/* Imagen más grande (178px), bordes 8 */}
+        {/* Imagen */}
         <div className="relative h-[178px] w-full overflow-hidden rounded-lg bg-gray-100">
           <Image
             src={src}
@@ -89,7 +89,7 @@ export default function DiscoveryCard({ p }: { p: Product }) {
           </div>
         </div>
 
-        {/* (Opcional) Tags existentes: los dejamos tal cual si llegan */}
+        {/* (Opcional) Tags existentes */}
         {p.tags?.length ? (
           <div className="flex flex-wrap gap-1">
             {p.tags.slice(0, 3).map((t) => (
@@ -106,7 +106,7 @@ export default function DiscoveryCard({ p }: { p: Product }) {
         {/* Divider */}
         <div className="h-px w-full bg-[#CEDBE8]" />
 
-        {/* Botón “Shop Now” compacto (24px alto) */}
+        {/* “Shop Now” */}
         <div
           className="h-6 grid place-items-center rounded-lg text-white text-[12px] font-semibold"
           style={{ backgroundColor: '#789D00' }}

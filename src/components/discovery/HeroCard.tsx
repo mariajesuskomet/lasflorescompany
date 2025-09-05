@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';            // ⬅️ nuevo
+import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/lib/types';
@@ -9,20 +9,16 @@ import { nextCatalogWithProduct, toLoginWithNext } from '@/lib/routing';
 import { LOGIN_URL } from '@/lib/routing';
 import { getUnitOfSale } from '@/lib/product-format';
 
-
 type Props = { p: Product; focused?: boolean };
 
-const FALLBACK = '/images/products/fallback.jpg'; // ⬅️ nuevo
+const FALLBACK = '/images/products/fallback.jpg';
 
-/** Medidas 20% menores que las originales */
-const CARD_W = 270;          // 336 -> 270
-const CARD_H = 270;          // 336 -> 270
-const IMG_H = 250;           // 312 -> 250
-const CARD_H_FOCUSED = 320;  // 400 -> 320
-const IMG_H_FOCUSED = 300;   // 376 -> 300
+const CARD_W = 270; // Figma
+const CARD_H = 270; // Figma
+const IMG_H  = 250; // Figma
 
-export default function HeroCard({ p, focused }: Props) {
-  const [src, setSrc] = useState(() => getProductImageUrl(p)); // ⬅️ nuevo
+export default function HeroCard({ p }: Props) {
+  const [src, setSrc] = useState(() => getProductImageUrl(p));
   const alt = getAltText(p);
   const href = toLoginWithNext(nextCatalogWithProduct(p.id));
   const unoptimized = useMemo(() => src === FALLBACK, [src]);
@@ -31,49 +27,100 @@ export default function HeroCard({ p, focused }: Props) {
   return (
     <div
       className={[
-        `w-[${CARD_W}px] rounded-2xl p-3 bg-white outline outline-1 outline-[#CEDBE8]`,
-        'flex flex-col gap-3 transition-all',
-        focused ? 'h-[320px] shadow-[0_0_1px_rgba(9,30,66,0.31)]' : 'h-[270px]',
+        'inline-flex flex-col justify-start items-start gap-3',
+        'rounded-2xl bg-white outline outline-1 outline-[#CEDBE8]',
+        'transition-transform duration-200 ease-out will-change-transform',
+        'hover:scale-[1.03]',
       ].join(' ')}
-      style={{ width: CARD_W, height: focused ? CARD_H_FOCUSED : CARD_H } as any}
+      style={{
+        width: CARD_W,
+        height: CARD_H,
+        padding: 12,
+        outlineOffset: '-1px', // como en Figma
+      }}
     >
-      <div className="relative w-full h-full min-h-0">
-        <div className="relative w-full h-full rounded-lg overflow-hidden">
-          <div style={{ height: focused ? IMG_H_FOCUSED : IMG_H }}>
-            <div className="relative w-full h-full">
+      {/* content */}
+      <div className="relative flex flex-col gap-2 w-full h-full">
+        {/* imagen + overlay dentro del mismo wrapper recortado */}
+        <div
+          className="relative inline-flex justify-center items-center overflow-hidden rounded-lg w-full"
+          style={{ height: IMG_H }}
+        >
+          <div className="relative w-full h-full">
             <Image
-                src={src}
-                alt={alt}
-                fill
-                className="object-cover"
-                sizes="270px"
-                unoptimized={unoptimized} 
-                onError={() => setSrc(FALLBACK)}  // ⬅️ nuevo
-              />
-            </div>
+              src={src}
+              alt={alt}
+              fill
+              className="object-cover"
+              sizes={`${CARD_W}px`}
+              unoptimized={unoptimized}
+              onError={() => setSrc(FALLBACK)}
+            />
           </div>
 
-          {/* overlay inferior */}
-          <div className="absolute left-0 right-0 bottom-0 bg-[rgba(18,22,25,0.60)] rounded-b-lg px-4 py-3">
-            <div className="space-y-1.5">
-              <div className="text-white text-base font-semibold leading-6 line-clamp-1">
+          {/* overlay inferior (alineado al borde del wrapper) */}
+          <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-[rgba(18,22,25,0.60)] px-3 pt-2 pb-4">
+            {/* título */}
+            <div className="w-full">
+              <div className="text-white text-[14px] font-semibold leading-5 line-clamp-1">
                 {p.name}
               </div>
-
-              <div className="flex flex-wrap items-center gap-1 text-[10px] leading-[14px] tracking-[0.05em] text-[#CEDBE8]">
-                {unit && <span>{unit}</span>}
-                {p.color && <span>• {p.color}</span>}
-                {p.boxType && <span>• {p.boxType}</span>}
-              </div>
-
-              <Link
-                href={LOGIN_URL}
-                className="mt-1 block w-full rounded-xl py-2.5 text-center text-[15px] font-medium"
-                style={{ background: '#91B420', color: '#121619' }}
-              >
-                Shop Now
-              </Link>
             </div>
+
+            {/* specs 1 */}
+            <div className="w-full inline-flex items-center gap-2 overflow-hidden">
+              {/* 10 Stem/Bun */}
+              {p.stemBun != null && p.stemBun !== '' && (
+                <div className="flex items-center gap-0.5">
+                  <span className="text-white text-[10px] font-bold leading-[14px] tracking-[0.05em]">
+                    {p.stemBun}
+                  </span>
+                  <span className="text-white text-[10px] font-bold leading-[14px] tracking-[0.05em]">
+                    &nbsp;Stem/Bun
+                  </span>
+                </div>
+              )}
+
+              {/* separador | si hay ambos */}
+              {p.stemBun != null &&
+                p.stemBun !== '' &&
+                p.totalUnits != null &&
+                p.totalUnits !== '' && <span className="text-white/80">|</span>}
+
+              {/* Unit/Box: 18 (solo número) */}
+              <div className="flex items-center gap-0.5">
+                <span className="text-white/90 text-[10px] font-normal leading-[14px] tracking-[0.05em]">
+                  Unit/Box:
+                </span>
+                <span className="text-white text-[10px] font-bold leading-[14px] tracking-[0.05em]">
+                  {p.totalUnits ?? '—'}
+                </span>
+              </div>
+            </div>
+
+            {/* specs 2 */}
+            <div className="w-full inline-flex items-center gap-2 overflow-hidden mt-1">
+              <div className="flex items-center gap-0.5">
+                <span className="text-white/90 text-[10px] leading-[14px] tracking-[0.05em]">Box:</span>
+                <span className="text-white text-[10px] font-bold leading-[14px] tracking-[0.05em]">
+                  {p.boxType ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center gap-0.5 min-w-0">
+                <span className="text-white/90 text-[10px] leading-[14px] tracking-[0.05em]">Color:</span>
+                <span className="text-white text-[10px] font-bold leading-[14px] tracking-[0.05em] truncate">
+                  {p.color ?? '—'}
+                </span>
+              </div>
+            </div>
+
+            {/* botón */}
+            <Link
+              href={LOGIN_URL}
+              className="w-full inline-flex justify-center items-center rounded-lg overflow-hidden" 
+              style={{ height: 24, background: '#91B420'}}>
+              Shop Now
+            </Link>
           </div>
         </div>
       </div>

@@ -14,15 +14,13 @@ type Props = {
   tagLabel?: string;
 };
 
-const FALLBACK = '/images/products/fallback.jpg'; // ⬅️ nuevo
-
-/** 60% de las medidas originales (586x250, img 226) */
+const FALLBACK = '/images/products/fallback.jpg';
 const CARD_W = 352;  // ~586 * 0.6
 const CARD_H = 150;  // ~250 * 0.6
 const IMG_W  = 136;  // ~226 * 0.6
 
 export default function DiscoveryCardHorizontal({ p, tagLabel }: Props) {
-  const [src, setSrc] = useState(() => getProductImageUrl(p)); // ⬅️ nuevo
+  const [src, setSrc] = useState(() => getProductImageUrl(p));
   const alt  = getAltText(p);
   const href = toLoginWithNext(nextCatalogWithProduct(p.id));
   const unoptimized = useMemo(() => src === FALLBACK, [src]);
@@ -58,7 +56,7 @@ export default function DiscoveryCardHorizontal({ p, tagLabel }: Props) {
     </div>
   </div>
 
-  {/* Botón igual al de los cards verticales */}
+  {/* Botón */}
   <Link
     href={LOGIN_URL}
     prefetch={false}
@@ -77,7 +75,7 @@ export default function DiscoveryCardHorizontal({ p, tagLabel }: Props) {
           className="object-cover"
           sizes="136px"
           unoptimized={unoptimized}
-          onError={() => setSrc(FALLBACK)}   // ⬅️ nuevo
+          onError={() => setSrc(FALLBACK)}
         />
       </div>
     </div>

@@ -6,7 +6,6 @@ import { products } from '@/lib/data';
 import type { Product } from '@/lib/types';
 import ChipsRow from '@/components/filters/ChipsRow';
 
-// Evita prerender y el error de “useSearchParams should be wrapped in a suspense boundary”
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -48,7 +47,7 @@ const filterAndSortProducts = (
   return filtered;
 };
 
-// Empty state con CTA que limpia filtros
+// Empty state
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
@@ -81,7 +80,7 @@ export default function CatalogPage({
       </aside>
 
       <main className="h-full overflow-y-auto">
-        {/* Chips (client component) */}
+        {/* Chips */}
         <ChipsRow />
 
         <Suspense fallback={<ProductGridSkeleton />}>

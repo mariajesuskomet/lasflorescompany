@@ -6,14 +6,11 @@ import type { Product } from '@/lib/types';
 import { getProductImageUrl, getAltText } from '@/lib/images';
 import { LOGIN_URL, nextCatalogWithProduct, toLoginWithNext } from '@/lib/routing';
 import Link from 'next/link';
-
-
-// UI iguales al e-commerce
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Search } from 'lucide-react';
+import { Calendar as CalendarIcon, Search, MapPin, Info } from 'lucide-react';
 
-// Chips existentes (misma lógica de quitar chip)
+// Chips
 import FilterChips from '@/components/filters/filter-chips';
 
 function applyFilters(all: Product[], sp: ReadonlyURLSearchParams): Product[] {
@@ -50,7 +47,7 @@ export default function AllProductsPublic({
   const router = useRouter();
   const pathname = usePathname();
 
-  // --- búsqueda (misma UX que e-commerce: debounce) ---
+  // --- búsqueda ---
   const [q, setQ] = React.useState(sp.get('query') || '');
 
   const createQueryString = React.useCallback(
@@ -112,7 +109,7 @@ export default function AllProductsPublic({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // Fecha (solo display); mismo look, deshabilitado
+  // Fecha (solo display) deshabilitado
   const todayStr = React.useMemo(
     () => new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date()),
     []
@@ -121,57 +118,25 @@ export default function AllProductsPublic({
 
   return (
     <section className="w-full">
-      {/* ── Toolbar: izq controles deshabilitados / der buscador ── */}
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <div className="flex items-center gap-3">
-          {/* Fecha (idéntico botón outline, disabled) */}
-          <Button
-            variant="outline"
-            disabled
-            className="w-[200px] justify-start text-left font-normal text-muted-foreground pointer-events-none opacity-70"
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            <span suppressHydrationWarning>{todayStr}</span>
-          </Button>
 
-          {/* Shipping address (sólo UI, deshabilitado) */}
-          <Button
-            variant="outline"
-            disabled
-            className="w-[220px] justify-start text-left font-normal text-muted-foreground pointer-events-none opacity-70"
-          >
-            Phoenix, AZ 85043
-          </Button>
-        </div>
+{/* ── Fila: título a la izquierda + contador a la derecha ── */}
+<div className="flex items-end justify-between gap-4 mb-2">
+  <h2 className="text-[24px] leading-7 font-semibold">All Products</h2>
+  <div className="text-sm whitespace-nowrap">
+    <span className="font-semibold">{filtered.length}</span>{' '}
+    <span className="text-slate-600">Results found</span>
+  </div>
+</div>
 
-        {/* Search (igual al e-commerce) */}
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search products..."
-              className="pl-10 w-64"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
+{/* ── Chips (debajo de la fila del título) ── */}
+<div className="min-h-6 mb-2">
+  {selected.count > 0 ? (
+    <FilterChips selected={selected as any} onRemove={removeChip as any} />
+  ) : null}
+</div>
 
-      {/* ── Chips arriba del grid + contador a la derecha ── */}
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <div className="min-h-6">
-          {selected.count > 0 ? (
-            <FilterChips selected={selected as any} onRemove={removeChip as any} />
-          ) : null}
-        </div>
-        <div className="text-sm whitespace-nowrap">
-          <span className="font-semibold">{filtered.length}</span>{' '}
-          <span className="text-slate-600">Results found</span>
-        </div>
-      </div>
 
-      {/* ── Grid de productos (SIN cambios en cards) ── */}
+      {/* ── Grid de productos ── */}
       <div
         className="grid gap-4
                    grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"

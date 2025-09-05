@@ -12,7 +12,7 @@ const NATURAL_HEIGHT = 243;
 const RATIO = NATURAL_WIDTH / NATURAL_HEIGHT; // ≈ 4.2288
 
 export function Logo({ size = 48, className, priority }: Props) {
-  const height = size;                         // alto que quieres renderizar
+  const height = size;                         // alto
   const width = Math.round(size * RATIO);      // ancho proporcional
 
   return (
@@ -21,7 +21,6 @@ export function Logo({ size = 48, className, priority }: Props) {
       alt="Las Flores"
       width={width}
       height={height}
-      // Si además aplicas clases que toquen tamaño, esto evita desajustes de hidratación:
       style={{ height, width: "auto" }}
       className={className}
       priority={priority}
