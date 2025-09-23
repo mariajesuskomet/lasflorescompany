@@ -40,9 +40,14 @@ export function LoginForm() {
   if (!mounted) return null;
 
   const handleDemoLogin = () => {
+    // Rellena los campos
     form.setValue('email', 'demo@lasflores.com');
     form.setValue('password', 'Demo123!');
+  
+    // Lanza el mismo submit del formulario (con validación)
+    form.handleSubmit(onSubmit)();
   };
+  
 
   const onSubmit = () => {
     setIsLoading(true);
